@@ -7,6 +7,7 @@ import {
   ScrollArea,
   Space,
   Table,
+  Text,
 } from '@mantine/core';
 import FacultyForm from '../forms/FacultyForm';
 import TAForm from '../forms/TAForm';
@@ -141,19 +142,6 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
     >
       {hasFacultyPermission && (
         <Group my={16}>
-          {isEditing ? (
-            <div>
-              <Button onClick={toggleUpdateFaculty}>Update Faculty</Button>
-              <Button onClick={toggleUpdateTA}>Update TA</Button>
-              <Button onClick={toggleUpdateStudent}>Update Student</Button>
-            </div>
-          ) : (
-            <div>
-              <Button onClick={toggleAddFaculty}>Add Faculty Member</Button>
-              <Button onClick={toggleAddTA}>Add TA</Button>
-              <Button onClick={toggleAddStudent}>Add Student</Button>
-            </div>
-          )}
           <Button onClick={toggleIsExportingData}>Export Data</Button>
           <Button onClick={toggleIsEditing}>
             {isEditing ? 'Finish Edit' : 'Edit Details'}
@@ -298,6 +286,15 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
           </Table.Tbody>
         </Table>
       )}
+      {hasFacultyPermission && (
+        <Group my={12}>
+          {isEditing ? (
+            <Button onClick={toggleUpdateFaculty}>Update Faculty</Button>
+          ) : (
+            <Button onClick={toggleAddFaculty}>Add Faculty Member</Button>
+          )}
+        </Group>
+      )}
       <Space h="md" />
       <Divider label="Teaching Assistants" size="lg" />
       {TAs && TAs.length > 0 && (
@@ -360,6 +357,15 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
           </Table.Tbody>
         </Table>
       )}
+      {hasFacultyPermission && (
+        <Group my={12}>
+          {isEditing ? (
+            <Button onClick={toggleUpdateTA}>Update TA</Button>
+          ) : (
+            <Button onClick={toggleAddTA}>Add TA</Button>
+          )}
+        </Group>
+      )}
       <Space h="md" />
       <Divider label="Students" size="lg" />
       {students && students.length > 0 && (
@@ -420,6 +426,15 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
             ))}
           </Table.Tbody>
         </Table>
+      )}
+      {hasFacultyPermission && (
+        <Group my={12}>
+          {isEditing ? (
+            <Button onClick={toggleUpdateStudent}>Update Student</Button>
+          ) : (
+            <Button onClick={toggleAddStudent}>Add Student</Button>
+          )}
+        </Group>
       )}
     </ScrollArea>
   );
