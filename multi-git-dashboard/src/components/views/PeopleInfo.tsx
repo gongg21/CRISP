@@ -223,7 +223,7 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
           onUpdate={handleUpdate}
         />
       </Modal>
-      <Divider label="Faculty Members" size="lg" />
+      <Divider label={<Text size="md">Faculty Members</Text>} size="lg" />
       {faculty && faculty.length > 0 && (
         <Table>
           <Table.Thead>
@@ -296,7 +296,7 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
         </Group>
       )}
       <Space h="md" />
-      <Divider label="Teaching Assistants" size="lg" />
+      <Divider label={<Text size="md">Teaching Assistants</Text>} size="lg" />
       {TAs && TAs.length > 0 && (
         <Table>
           <Table.Thead>
@@ -367,7 +367,7 @@ const PeopleInfo: React.FC<PeopleInfoProps> = ({
         </Group>
       )}
       <Space h="md" />
-      <Divider label="Students" size="lg" />
+      <Divider label={<Text size="md">Students</Text>} size="lg" />
       {students && students.length > 0 && (
         <Table>
           <Table.Thead>
