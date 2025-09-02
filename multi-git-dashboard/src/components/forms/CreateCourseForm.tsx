@@ -249,6 +249,8 @@ const CreateCourse: React.FC = () => {
             'Ay2024/25 Sem 1',
             'Ay2024/25 Sem 2',
             'Ay2024/25 Special Term',
+            'AY2025/26 Sem 1',
+            'AY2025/26 Sem 2',
           ]}
           placeholder="Choose current semester"
           label="Semester"
