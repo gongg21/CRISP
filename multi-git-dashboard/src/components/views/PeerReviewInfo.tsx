@@ -87,21 +87,6 @@ const PeerReviewInfo: React.FC<PeerReviewInfoProps> = ({
     </Tabs.Tab>
   ));
 
-  const getStudentNameByGitHandle: ProfileGetter = async gitHandle => {
-    if (!studentMap[gitHandle]) {
-      const res = await fetch(`/api/user/profile?gitHandle=${gitHandle}`);
-      if (!res.ok) throw new Error('Failed to fetch profile');
-      const profile: Profile = await res.json();
-      setStudentMap({ ...studentMap, [gitHandle]: profile });
-    }
-    return studentMap[gitHandle];
-  };
-
-  // const data = teamSets.teamDatas.map(teamData => {
-  //   const team = teams.find(team => team.teamData === teamData._id);
-  //   return { team, teamData };
-  // });
-
   const data = teamDatas.map(teamData => {
     const team = teams.find(team => team.teamData === teamData._id);
     return { team, teamData };
@@ -137,13 +122,6 @@ const PeerReviewInfo: React.FC<PeerReviewInfoProps> = ({
   if (!teams.length || !teamDatas.length)
     return <Center>No teams found.</Center>;
 
-  console.log(teamSets);
-
-  // const data = teamSets[0].teams.map(teamData => {
-  //   const team = teams.find(team => team.teamData === teamData._id);
-  //   return { team, teamData };
-  // });
-
   const renderOverviewAccordion = () => {
     return (
       <Accordion
@@ -154,13 +132,9 @@ const PeerReviewInfo: React.FC<PeerReviewInfoProps> = ({
       >
         {data.map(({ team, teamData }, idx) => (
           <PeerReviewAccordionItem
-            index={idx}
             key={teamData._id}
             team={team}
             teamData={teamData}
-            teamDatas={teamDatas}
-            dateUtils={dateUtils}
-            getStudentNameByGitHandle={getStudentNameByGitHandle}
           />
         ))}
       </Accordion>
@@ -168,8 +142,8 @@ const PeerReviewInfo: React.FC<PeerReviewInfoProps> = ({
   };
 
   return (
-    <ScrollArea.Autosize mt={20}>
-      <Tabs value={activeTab} mx={20} style={{ minHeight: '70vh', paddingBottom: '20px' }}>
+    <ScrollArea.Autosize mt={20} mah={750} scrollbarSize={8}>
+      <Tabs value={activeTab} mx={20} style={{ paddingBottom: '20px' }}>
         {teamSets.map(teamSet => (
           <Tabs.Panel key={teamSet._id} value={teamSet.name}>
             {renderOverviewAccordion()}

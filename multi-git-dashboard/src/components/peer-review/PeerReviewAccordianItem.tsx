@@ -6,17 +6,13 @@ import PeerReviewTeamCard from '../cards/PeerReviewTeamCard';
 import { ProfileGetter, Team } from '../views/Overview';
 
 interface OverviewAccordionItemProps {
-  index: number;
   teamData: TeamData;
   team: Team | undefined;
-  teamDatas: TeamData[];
-  dateUtils: DateUtils;
-  getStudentNameByGitHandle: ProfileGetter;
 }
 
 const PeerReviewAccordionItem = forwardRef<HTMLDivElement, OverviewAccordionItemProps>(
   (
-    { index, teamData, team, teamDatas, dateUtils, getStudentNameByGitHandle },
+    { teamData, team },
     ref
   ) => {
     return (
@@ -29,7 +25,6 @@ const PeerReviewAccordionItem = forwardRef<HTMLDivElement, OverviewAccordionItem
             <PeerReviewTeamCard
               members={team.members}
               TA={team.TA}
-              teamData={teamData}
               onUpdate = {() => {}}
             />
           ) : (

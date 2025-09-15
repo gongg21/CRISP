@@ -16,21 +16,33 @@ import { useEffect, useState } from 'react';
 interface PeerReviewTeamCardProps {
   members: User[];
   TA: User | null;
-  teamData: TeamData | null;
   onUpdate: () => void;
 }
 
 const PeerReviewTeamCard: React.FC<PeerReviewTeamCardProps> = ({
   members,
   TA,
-  teamData,
 }) => {
   
+  const assignedPeerReviewApiRoute = `/api/peerreviews/assignedreviews`;
+  
+  const getAssignedPeerReviews = (member_id: string) => {
+    // TODO: Implement logic to fetch assigned peer reviews for the member
+  }
+  
   const student_rows = members?.map(member => {
+    
+    // Fetch assigned peer reviews for the member
+    const assignedPeerReviews = getAssignedPeerReviews(member._id);
+    
     return (
       <Table.Tr key={member._id}>
         <Table.Td style={{ textAlign: 'left' }}>{member.name}</Table.Td>
         <Table.Td style={{ textAlign: 'left' }}>{member.gitHandle}</Table.Td>
+        <Table.Td style={{ textAlign: 'left' }}>
+          {/* Display assigned peer reviews here */}
+          {/* Example: {getAssignedPeerReviews(member._id).join(', ')} */}
+        </Table.Td>
       </Table.Tr>
     );
   });
@@ -44,10 +56,9 @@ const PeerReviewTeamCard: React.FC<PeerReviewTeamCardProps> = ({
         gap: '2px',
         marginBottom: '16px',
         borderBottom: '1px solid #c0c0c0',
-        paddingBottom: '8px',
+        paddingBottom: '12px',
       }}>
         <Text>Teaching Assistant: <strong>{TA ? TA.name : 'None'}</strong></Text>
-        <Text>Repository: <strong>{teamData ? teamData.repoName : 'None'}</strong></Text>
       </Group>
       <Table>
         <Table.Thead>

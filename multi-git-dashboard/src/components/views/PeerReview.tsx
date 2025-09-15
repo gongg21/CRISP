@@ -38,7 +38,6 @@ const PeerReview: React.FC<PeerReviewProps> = ({
   };
   
   return (
-    <Container>
       <Tabs defaultValue={hasFacultyPermission() ? "peerReviewSettings" : "peerReviews"}>
         <Tabs.List
           style={{
@@ -74,7 +73,6 @@ const PeerReview: React.FC<PeerReviewProps> = ({
           )}
         </Tabs.Panel>
       </Tabs>
-    </Container>
   );
 };
 
