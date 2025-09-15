@@ -164,6 +164,8 @@ const Navbar: React.FC = () => {
       return 'Code Analysis';
     } else if (path.startsWith('/courses/[id]/pr-overview')) {
       return 'PR Overview';
+    } else if (path.startsWith('/courses/[id]/peer-review')) {
+      return 'Peer Review';
     } else if (path.startsWith('/courses/[id]')) {
       return 'Team Review';
     } else {
@@ -263,10 +265,10 @@ const Navbar: React.FC = () => {
       pngSrc: '/assessments.png',
     },
     {
-      link: `/courses/${courseId}/pr-reviews`,
-      label: 'PR Reviews',
+      link: `/courses/${courseId}/peer-review`,
+      label: 'Peer Review',
       disabled: !peopleAdded,
-      pngSrc: '/pr-reviews.png',
+      pngSrc: '/peer-review.png',
     }
   ];
 
@@ -326,7 +328,7 @@ const Navbar: React.FC = () => {
 
   const courseLinks = [];
 
-  // First section: Class Overview, Team Review, PR Review, Code Analysis, Project Management
+  // First section: Class Overview, Team Review, PR Overview, Code Analysis, Project Management
   courseLinks.push(
     renderNavLink(courseLinksData[1], 6, 'top-start', 'Team Review')
   );
@@ -379,12 +381,12 @@ const Navbar: React.FC = () => {
     />
   );
 
-  // Third section: Assessment
+  // Third section: Assessment, Peer Reviews
   courseLinks.push(
     renderNavLink(courseLinksData[9], 23, 'top-start', 'Assessments', true)
   );
   courseLinks.push(
-    renderNavLink(courseLinksData[10], 23, 'top-start', 'PR Reviews', true)
+    renderNavLink(courseLinksData[10], 23, 'top-start', 'Peer Review', true)
   );
 
   useEffect(() => {
