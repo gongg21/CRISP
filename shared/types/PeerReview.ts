@@ -1,15 +1,35 @@
-import { DateUtils } from '@/lib/utils';
-import { Course } from './Course';
 import { Team } from './Team';
 import { User } from './User';
 
 export interface PeerReview {
   _id: string;
   courseId: string;
+  title: string;
+  description: string;
+  peerReviewSettingsId: string;
+  peerReviewAssignmentIds: string[];
+  createdAt: Date;
+}
+
+export interface PeerReviewSettings {
+  _id: string;
+  peerReviewId: string;
+  reviewerType: "Individual" | "Team";
+  revieweeType: "Individual" | "Team";
+  minReviewsPerReviewer: number;
+  maxReviewsPerReviewer: number;
+  assignmentMode: "Random" | "Manual" | "Hybrid";
+}
+
+export interface PeerReviewAssignment {
+  _id: string;
+  peerReviewId: string;
   repoName: string;
   repoUrl: string;
-  assignedTeam: Team | null;
-  reviewer: User | null;
+  reviewerUser: User | null;
+  revieweeUser: User | null;
+  reviewerTeam: Team | null;
+  revieweeTeam: Team| null;
   assignedBy: User | null;
   assignedAt: Date;
   deadline: Date | null;
@@ -18,14 +38,14 @@ export interface PeerReview {
 
 export interface PeerReviewComment {
   _id: string;
-  peerReviewId: string;
+  peerReviewAssignmentId: string;
   filePath: string | null;
   startLine: number | null;
   endLine: number | null;
   author: User;
   comment: string;
   createdAt: Date;
-  isOverall?: boolean;
+  isOverallComment?: boolean;
 }
 
 export interface RepoNode {

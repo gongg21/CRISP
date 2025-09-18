@@ -7,7 +7,7 @@ interface PeerReviewCommentWidgetProps {
   startLine: number;
   endLine: number;
   currFile: string;
-  peerReviewId: string;
+  peerReviewAssignmentId: string;
   currUser: User;
   onSave: (c: Omit<PeerReviewComment, '_id' | 'createdAt' | 'updatedAt'>, cleanup: () => void) => void;
   onCancel: () => void;
@@ -17,7 +17,7 @@ const PeerReviewCommentWidget: React.FC<PeerReviewCommentWidgetProps> = ({
   startLine,
   endLine,
   currFile,
-  peerReviewId,
+  peerReviewAssignmentId,
   currUser,
   onSave,
   onCancel,
@@ -38,7 +38,7 @@ const PeerReviewCommentWidget: React.FC<PeerReviewCommentWidgetProps> = ({
           size="xs"
           onClick={() => {
             onSave({
-                peerReviewId,
+                peerReviewAssignmentId,
                 filePath: currFile,
                 startLine,
                 endLine,

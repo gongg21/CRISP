@@ -17,7 +17,7 @@ import { createPortal } from "react-dom";
 import { IconListDetails } from '@tabler/icons-react';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState, useRef, useMemo } from 'react';
-import { PeerReview, PeerReviewComment, RepoNode } from '@shared/types/PeerReview';
+import { PeerReview, PeerReviewAssignment, PeerReviewComment, RepoNode } from '@shared/types/PeerReview';
 import PeerReviewCommentWidget from '@/components/peer-review/PeerReviewCommentWidget';
 import PeerReviewFileTree from '@/components/peer-review/PeerReviewFileTree';
 import { User } from '@shared/types/User';
@@ -107,15 +107,17 @@ const fetchFileContent = async (repoUrl: string, filePath: string): Promise<stri
 };
 
 // Placeholder function to fetch peer review data
-const apiFetchPeerReview = async (peerReviewId: string): Promise<PeerReview> => {
+const apiFetchPeerReviewAssignment = async (peerReviewAssignmentId: string): Promise<PeerReviewAssignment> => {
   // TODO: Replace with actual API call
   return {
-    _id: peerReviewId,
-    courseId: 'course123',
+    _id: peerReviewAssignmentId,
+    peerReviewId: 'peerReview123',
     repoName: 'Sample Peer Review',
     repoUrl: 'https://github.com/gongg21/AddSubtract.git',
-    assignedTeam: null,
-    reviewer: null,
+    reviewerUser: null,
+    revieweeUser: null,
+    reviewerTeam: null,
+    revieweeTeam: null,
     assignedBy: null,
     assignedAt: new Date(),
     deadline: null,
@@ -191,15 +193,15 @@ const getLanguageForFile = (filename: string) => {
 
 const PeerReviewDetail: React.FC = () => {
   const router = useRouter();
-  const { courseId, peerReviewId } = router.query as {
+  const { courseId, peerReviewAssignmentId } = router.query as {
     courseId: string;
-    peerReviewId: string;
+    peerReviewAssignmentId: string;
   };
   
   const [loading, setLoading] = useState<boolean>(true);
   
   // Repo and Files
-  const [peerReview, setPeerReview] = useState<PeerReview | null>(null);
+  const [peerReviewAssignment, setPeerReviewAssignment] = useState<PeerReviewAssignment | null>(null);
   const [repoTree, setRepoTree] = useState<RepoNode | null>(null);
   const [currFile, setCurrFile] = useState<string | null>(null);
   const [fileContent, setFileContent] = useState<Record<string, string>>({});
@@ -220,14 +222,14 @@ const PeerReviewDetail: React.FC = () => {
   
   // Load Peer Review, Repo Structure, Initial File, and Comments
   const load = useCallback(async () => {
-    if (!peerReviewId) return;
+    if (!peerReviewAssignmentId) return;
     setLoading(true);
     
     try {
-      const selectedPeerReview = await apiFetchPeerReview(peerReviewId);
-      const tree = await fetchGithubRepoStructure(selectedPeerReview.repoUrl);
-      const currComments = await apiFetchComments(peerReviewId);
-      setPeerReview(selectedPeerReview);
+      const selectedPeerReviewAssignment = await apiFetchPeerReviewAssignment(peerReviewAssignmentId);
+      const tree = await fetchGithubRepoStructure(selectedPeerReviewAssignment.repoUrl);
+      const currComments = await apiFetchComments(peerReviewAssignmentId);
+      setPeerReviewAssignment(selectedPeerReviewAssignment);
       setRepoTree(tree);
       setAllComments(currComments);
       
@@ -235,13 +237,13 @@ const PeerReviewDetail: React.FC = () => {
       const files = flattenTree(tree);
       if (files[0]) {
         setCurrFile(files[0]);
-        const content = await fetchFileContent(selectedPeerReview.repoUrl, files[0]);
+        const content = await fetchFileContent(selectedPeerReviewAssignment.repoUrl, files[0]);
         setFileContent(prev => ({ ...prev, [files[0]]: content }));
       }
     } finally {
       setLoading(false);
     }
-  }, [peerReviewId]);
+  }, [peerReviewAssignmentId]);
   
   useEffect(() => {
     if (router.isReady) load();
@@ -249,13 +251,13 @@ const PeerReviewDetail: React.FC = () => {
   
   // Open File Logic
   const openFile = useCallback(async (filePath: string) => {
-    if (!peerReview) return;
+    if (!peerReviewAssignment) return;
     setCurrFile(filePath);
     if (!fileContent[filePath]) {
-      const content = await fetchFileContent(peerReview.repoUrl, filePath);
+      const content = await fetchFileContent(peerReviewAssignment.repoUrl, filePath);
       setFileContent(prev => ({ ...prev, [filePath]: content }));
     }
-  }, [peerReview, fileContent]);
+  }, [peerReviewAssignment, fileContent]);
   
   // Editor Interaction Logic
   const [activeWidget, setActiveWidget] = useState<{
@@ -374,7 +376,7 @@ const PeerReviewDetail: React.FC = () => {
   
   // Handle Save Comment
   const handleSaveComment = async (c: Omit<PeerReviewComment, '_id' | 'createdAt' | 'updatedAt'>, cleanup: () => void) => {
-    const saved = await apiSaveComment(peerReviewId, c);
+    const saved = await apiSaveComment(peerReviewAssignmentId, c);
     setAllComments(prev => [...prev, saved]);
     cleanup();
     setActiveWidget(null);
@@ -420,7 +422,7 @@ const PeerReviewDetail: React.FC = () => {
     decorationsRef.current = editor.deltaDecorations([], newDecorations);
   }, [allComments, currFile]);
 
-  if (loading || !peerReview || !repoTree) {
+  if (loading || !peerReviewAssignment || !repoTree) {
     return (
       <Center>Loading...</Center>
     );
@@ -433,9 +435,9 @@ const PeerReviewDetail: React.FC = () => {
       <Group style={{ paddingBottom:"5px", marginBottom: '5px', display: 'flex', alignContent: 'flex-start', maxHeight: '90%', }} >
         <IconListDetails />
         <Title order={4}>Peer Review:</Title>
-        <Anchor href={peerReview.repoUrl} target="_blank" rel="noreferrer">
+        <Anchor href={peerReviewAssignment.repoUrl} target="_blank" rel="noreferrer">
           <Title order={4}>
-            {peerReview.repoName}
+            {peerReviewAssignment.repoName}
           </Title>
         </Anchor>
       </Group>
@@ -510,12 +512,12 @@ const PeerReviewDetail: React.FC = () => {
       
       {/* Portal Injection for Comment Box */}
       { activeWidget && createPortal(
-          <div className={classes.commentWidget} style={{ top: activeWidget.top, left: "50%", transform: "translateX(-50%)" }}>
+          <div className={classes.commentWidget} style={{ top: activeWidget.top + 50 }}>
             <PeerReviewCommentWidget
               startLine={activeWidget.start}
               endLine={activeWidget.end}
               currFile={currFile!}
-              peerReviewId={peerReviewId}
+              peerReviewAssignmentId={peerReviewAssignmentId}
               currUser={currentUser}
               onSave={handleSaveComment}
               onCancel={handleCancelComment}
