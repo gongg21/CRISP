@@ -39,9 +39,9 @@ export interface PeerReviewAssignment {
 export interface PeerReviewComment {
   _id: string;
   peerReviewAssignmentId: string;
-  filePath: string | null;
-  startLine: number | null;
-  endLine: number | null;
+  filePath: string;
+  startLine: number;
+  endLine: number;
   author: User;
   comment: string;
   createdAt: Date;

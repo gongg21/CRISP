@@ -20,8 +20,13 @@ const peerReviewSettingsSchema = new Schema<PeerReviewSettings>({
     required: true,
     default: 'Individual',
   },
-  minReviewsPerReviewer: { type: Number, required: true, default: 1 },
-  maxReviewsPerReviewer: { type: Number, required: true, default: 3 },
+  minReviewsPerReviewer: { type: Number, required: true, min: 1 },
+  maxReviewsPerReviewer: { type: Number, required: true, min: 1, validate: {
+    validator: function (this: PeerReviewSettings, v: number) {
+      return v >= this.minReviewsPerReviewer;
+    },
+    message: `maxReviewsPerReviewer must be greater than or equal to minReviewsPerReviewer`,
+  }},
   assignmentMode: {
     type: String,
     enum: ['Random', 'Manual', 'Hybrid'],
