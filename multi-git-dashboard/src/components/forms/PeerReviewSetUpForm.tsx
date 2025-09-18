@@ -102,6 +102,7 @@ const PeerReviewSetUpForm: React.FC<PeerReviewSetUpFormProps> = ({
           onChange={event =>
             form.setFieldValue('manualAssign', event.currentTarget.checked)
           }
+          styles={{ input: { cursor: "pointer" } }}
         />
         <Checkbox
           label="Random"
@@ -109,6 +110,7 @@ const PeerReviewSetUpForm: React.FC<PeerReviewSetUpFormProps> = ({
           onChange={event =>
             form.setFieldValue('randomAssign', event.currentTarget.checked)
           }
+          styles={{ input: { cursor: "pointer" } }}
         />
       </div>
       
@@ -123,8 +125,8 @@ const PeerReviewSetUpForm: React.FC<PeerReviewSetUpFormProps> = ({
           onChange={value => form.setFieldValue('reviewerType', value)}
         >
           <div style={{ display: 'flex', gap: '20px' }}>
-            <Radio label="Team" value="team" />
-            <Radio label="Individual" value="individual" />
+            <Radio label="Team" value="team" styles={{ radio: { cursor: "pointer" } }} />
+            <Radio label="Individual" value="individual" styles={{ radio: { cursor: "pointer" } }} />
           </div>
         </Radio.Group>
       </div>

@@ -269,7 +269,7 @@ const Navbar: React.FC = () => {
       label: 'Peer Review',
       disabled: !peopleAdded,
       pngSrc: '/peer-review.png',
-    }
+    },
   ];
 
   const renderNavLink = (

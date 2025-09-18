@@ -1,0 +1,51 @@
+.wrapper :global(.monaco-editor .margin) {
+  padding-left: 8px;
+}
+
+.wrapper :global(.monaco-editor .margin .glyph-margin) {
+  width: 6px;
+}
+
+.wrapper :global(.monaco-editor .line-numbers) {
+  padding-left: 0px;
+  padding-right: px;
+}
+
+.wrapper :global(.monaco-editor .view-lines) {
+  padding-top: 10px;
+}
+
+.repositoryScrollArea {
+  width: 200px;
+  height: 73.7vh;
+  border: 2px solid #505050;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+.repositoryText {
+  text-align: center;
+  font-weight: 700;
+  font-size: 14;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  padding-bottom: 8px;
+  color: dimgray;
+}
+
+.commentWidget {
+  position: absolute;
+  left: 60px;
+  z-index: 1000px;
+  width: 300px;
+}
+
+.addCommentIcon {
+  background: url('/plus.svg') no-repeat center center;
+  cursor: pointer;
+  background-size: 20px 20px;
+}
+
+.commentedRange {
+  background: rgba(255, 200, 0, 0.2);
+}
