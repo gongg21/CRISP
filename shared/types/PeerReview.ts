@@ -9,6 +9,9 @@ export interface PeerReview {
   peerReviewSettingsId: string;
   peerReviewAssignmentIds: string[];
   createdAt: Date;
+  startDate: Date;
+  endDate: Date;
+  status: "Upcoming" | "Ongoing" | "Completed";
 }
 
 export interface PeerReviewSettings {

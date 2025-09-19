@@ -15,6 +15,9 @@ const peerReviewSchema = new Schema<PeerReview>({
   createdAt: { type: Date, default: Date.now, required: true },
   peerReviewSettingsId: { type: Schema.Types.ObjectId, ref: 'PeerReviewSettings' },
   peerReviewAssignmentIds: [{ type: Schema.Types.ObjectId, ref: 'PeerReviewAssignment' }],
+  startDate: { type: Date, required: true },
+  endDate: { type: Date, required: true },
+  status: { type: String, enum: ['Upcoming', 'Ongoing', 'Completed'], required: true, default: 'Upcoming' },
 });
 
 const PeerReviewModel = mongoose.model<PeerReview>('PeerReview', peerReviewSchema);
